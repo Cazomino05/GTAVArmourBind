@@ -4,6 +4,8 @@
 #include "stdafx.h"
 #include <windows.h>
 #define VK_M 0x4D
+#define KEYPRESS_DELAY 50
+#define HOTKEY VK_F1
 
 void SendKey(int iKey, int iFlags )
 {
@@ -25,14 +27,14 @@ void SendKey(int iKey, int iFlags )
 	SendInput(1, &ip, sizeof(INPUT));
 
 	// wait 5ms
-	Sleep(5);
+	Sleep(KEYPRESS_DELAY);
 
 	// send key up
 	ip.ki.dwFlags = KEYEVENTF_KEYUP | iFlags;
 	SendInput(1, &ip, sizeof(INPUT));
 
 	// wait 5ms
-	Sleep(5);
+	Sleep(KEYPRESS_DELAY);
 }
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -40,8 +42,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	CHAR string[20];
 	while (true)
 	{
-		// Check for F1 press
-		if (GetKeyState(VK_F1) & 0x8000)
+		// Check for hotkey press
+		if (GetKeyState(HOTKEY) & 0x8000)
 		{
 			// Check target window
 			HWND wind = GetForegroundWindow();
